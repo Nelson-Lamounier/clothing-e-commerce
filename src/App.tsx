@@ -4,6 +4,8 @@ import Navigation from "./routes/navigation/navigation.component";
 import Home from "./routes/home/home.component";
 import "./assets/css/bootstrap.min.css";
 
+import { GlobalStyles } from "./global.style";
+
 const App = () => {
   return (
     <Routes>

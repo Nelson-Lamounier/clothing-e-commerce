@@ -9,7 +9,7 @@ export const MenuBarsContainer = styled.div`
   cursor: pointer;
 
   .bar {
-    width: 35px;
+    width: 3.5rem;
     height: 2px;
     background-color: #fff;
     margin: 8px 0;
