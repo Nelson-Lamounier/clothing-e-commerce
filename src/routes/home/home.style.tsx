@@ -54,7 +54,7 @@ align-items: center;
 ` 
 export const HeaderImage = styled.img`
 height: 90vh;
-width: 35%;
+width: 3%;
 object-fit: cover;
 ` 
 

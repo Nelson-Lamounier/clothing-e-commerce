@@ -53,16 +53,16 @@ const CategorySlides: FC = () => {
   return (
     <SectionSlides>
       <SlidesWrapper>
-        <SlideCart slides={menSlides} title="Mens" categoryPath="/mancatalog" />
+        <SlideCart slides={menSlides} title="Mens" categoryPath="/Men" />
         <SlideCart
           slides={womenSlides}
           title="Women"
-          categoryPath="/womencatalog"
+          categoryPath="/Women"
         />
         <SlideCart
           slides={salesSlides}
           title="Sales"
-          categoryPath="/salescatalog"
+          categoryPath="/Sales"
         />
       </SlidesWrapper>
     </SectionSlides>

@@ -11,12 +11,11 @@ const Home = () => {
   return (
     <>
       <GlobalStyles />
-      <StickyNavBar />
+  
       <MainHeader />
       <CategorySlides />
       <Testimonial />
-      <Footer />
-      <CategoryGallery/>
+
     </>
   );
 };

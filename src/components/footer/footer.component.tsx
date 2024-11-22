@@ -17,7 +17,7 @@ const Footer: FC = () => {
         <FooterLink href="#">Orders</FooterLink>
       </FooterList>
       <FooterParagraph>
-        Copyright &copy; GymBS All Rights Reserved
+        Copyright&copy;2024 Nelson Lamounier All Rights Reserved
       </FooterParagraph>
     </FooterContainer>
   );

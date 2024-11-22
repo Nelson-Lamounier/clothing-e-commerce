@@ -80,7 +80,7 @@ const dropLetters = keyframes`
 // Styled Logo Container
 export const LogoContainer = styled.div`
   position: absolute;
-  top: 4rem;
+  top: 6rem;
   right: 4rem;
 `;
 

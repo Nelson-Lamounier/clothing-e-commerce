@@ -2,15 +2,15 @@ import styled from "styled-components";
 
 export const MenuBarsContainer = styled.div`
   position: fixed;
-  top: 1rem;
-  right: 2rem;
-  z-index: 10;
+  top: 1.5rem;
+  left: 2.5rem;
+  z-index: 100;
   display: inline;
   cursor: pointer;
 
   .bar {
     width: 3.5rem;
-    height: 2px;
+    height: 1px;
     background-color: #fff;
     margin: 8px 0;
     transition: 0.4s;

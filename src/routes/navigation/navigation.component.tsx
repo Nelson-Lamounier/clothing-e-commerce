@@ -10,16 +10,14 @@ import Home from "../home/home.component";
 
 const Navigation: FC = () => {
     const [menuOpen, setMenuOpen] = useState<boolean>(false)
-
     const toggleMenu =() => {
         setMenuOpen((prev) => !prev)
     }
   return (
     <>
+    <StickyNavBar />
       <MenuBars toggleMenu={toggleMenu} />
       <OverlayMenu isOpen={menuOpen} />
-
-      <Home />
       <Outlet/>
     </>
   );

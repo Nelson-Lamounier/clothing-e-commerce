@@ -1,66 +1,60 @@
-import { useEffect, useState, FC } from "react";
-import { Outlet } from "react-router-dom";
+import  { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import {
+  NavbarContainer,
+  NavBar,
 
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
+  Overlay,
 
-// import {
-//   Navbar,
-//   Container,
-//   NavbarList,
-//   NavbarLink,
-//   ContentHeading,
-//   ContentSubheading,
-//   NavbarContainer,
-// } from "./sticky-nav.style";
+  NavBrand,
+} from "./sticky-nav.style";
 
-const StickyNavBar: FC = () => {
+const StickyNavBar = () => {
   const [navbarColor, setNavbarColor] = useState("navbar-transparent");
-  const [navbarActive, setNavbarActive] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const updateNavbarColor = () => {
-      if (
-        document.documentElement.scrollTop > 399 ||
-        document.body.scrollTop > 399
-      ) {
-        setNavbarColor("");
-      } else if (
-        document.documentElement.scrollTop < 400 ||
-        document.body.scrollTop < 400
-      ) {
-        setNavbarColor("navbar-trasparent");
+      if (window.scrollY > 399) {
+        setNavbarColor("navbar-colored");
+      } else {
+        setNavbarColor("navbar-transparent");
       }
-      window.addEventListener("scroll", updateNavbarColor);
-      return function cleanup() {
-        window.removeEventListener("scroll", updateNavbarColor);
-      };
     };
-  });
 
-  // const handleScroll = () => {
-  //   setNavbarActive(window.scrollY > 50);
-  // };
-  // useEffect(() => {
-  //   window.addEventListener("scroll", handleScroll);
-  //   return () => window.removeEventListener("scroll", handleScroll);
-  // }, []);
+    window.addEventListener("scroll", updateNavbarColor);
+    return () => {
+      window.removeEventListener("scroll", updateNavbarColor);
+    };
+  }, []);
+
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
 
   return (
-    <>
-      <Navbar bg="light" data-bs-them="light">
-        <Container>
-          <Navbar.Brand href="#home">Navbar</Navbar.Brand>
-          <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#features">Features</Nav.Link>
-            <Nav.Link href="#pricing">Pricing</Nav.Link>
-          </Nav>
-        </Container>
-      </Navbar>
-    </>
+    <NavbarContainer>
+      {isMenuOpen && <Overlay onClick={closeMenu} />}
+      <NavBar className={navbarColor}>
+
+        <NavBrand href="https://demos.creative-tim.com/now-ui-kit-react/index?ref=nukr-examples-navbar" target="_blank" rel="noopener noreferrer">
+          LOG IN
+        </NavBrand>
+        <NavBrand href="https://demos.creative-tim.com/now-ui-kit-react/index?ref=nukr-examples-navbar" target="_blank" rel="noopener noreferrer">
+          SIGN UP
+        </NavBrand>
+        <NavBrand href="https://demos.creative-tim.com/now-ui-kit-react/index?ref=nukr-examples-navbar" target="_blank" rel="noopener noreferrer">
+          SHOPPING BAG(0)
+        </NavBrand>
+
+      </NavBar>
+
+    </NavbarContainer>
   );
 };
 
+
+
 export default StickyNavBar;
+

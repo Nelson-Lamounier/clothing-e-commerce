@@ -22,7 +22,7 @@ interface OverlayMenuProps {
   isOpen: boolean;
 }
 
-const OverlayMenu: React.FC<OverlayMenuProps> = ({ isOpen }) => {
+const OverlayMenu: FC<OverlayMenuProps> = ({ isOpen }) => {
   return (
     <OverlayContainer isOpen={isOpen}>
       <Nav>
