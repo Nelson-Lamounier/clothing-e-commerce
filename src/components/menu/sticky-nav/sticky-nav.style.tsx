@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const NavbarContainer = styled.div`
@@ -23,7 +24,7 @@ export const NavBar = styled.nav`
   }
 `;
 
-export const NavBrand = styled.a`
+export const NavBrand = styled(Link)`
   margin-right: 2rem;
   text-decoration: none;
   color: inherit;

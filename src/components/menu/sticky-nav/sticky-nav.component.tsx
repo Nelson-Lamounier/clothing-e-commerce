@@ -1,13 +1,6 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import {
-  NavbarContainer,
-  NavBar,
-
-  Overlay,
-
-  NavBrand,
-} from "./sticky-nav.style";
+import { NavbarContainer, NavBar, Overlay, NavBrand } from "./sticky-nav.style";
 
 const StickyNavBar = () => {
   const [navbarColor, setNavbarColor] = useState("navbar-transparent");
@@ -28,7 +21,6 @@ const StickyNavBar = () => {
     };
   }, []);
 
-
   const closeMenu = () => {
     setIsMenuOpen(false);
   };
@@ -37,24 +29,26 @@ const StickyNavBar = () => {
     <NavbarContainer>
       {isMenuOpen && <Overlay onClick={closeMenu} />}
       <NavBar className={navbarColor}>
-
-        <NavBrand href="https://demos.creative-tim.com/now-ui-kit-react/index?ref=nukr-examples-navbar" target="_blank" rel="noopener noreferrer">
+        <NavBrand
+          to="/auth"
+        >
           LOG IN
         </NavBrand>
-        <NavBrand href="https://demos.creative-tim.com/now-ui-kit-react/index?ref=nukr-examples-navbar" target="_blank" rel="noopener noreferrer">
+        <NavBrand
+          to="/auth"
+        >
           SIGN UP
         </NavBrand>
-        <NavBrand href="https://demos.creative-tim.com/now-ui-kit-react/index?ref=nukr-examples-navbar" target="_blank" rel="noopener noreferrer">
+        <NavBrand
+          to={NavBrand}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           SHOPPING BAG(0)
         </NavBrand>
-
       </NavBar>
-
     </NavbarContainer>
   );
 };
 
-
-
 export default StickyNavBar;
-

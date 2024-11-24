@@ -1,7 +1,7 @@
 import { all, call} from "typed-redux-saga/macro"
-import {categoriesSage} from "./categories/category.saga"
+import {categorySage} from "./categories/category.saga"
 
 
 export function* rootSaga() {
-    yield all([call(categoriesSage)]);
+    yield all([call(categorySage)]);
 }

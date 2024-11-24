@@ -1,5 +1,5 @@
 import { FC, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import {
   SlideCartStyle,
@@ -8,8 +8,6 @@ import {
   TitleClothes,
   NavigationButton,
 } from "./category-preview.style";
-
-
 
 interface Slide {
     src: string;
@@ -22,7 +20,7 @@ interface SlideCartProps {
   categoryPath: string;
 }
 
-const SlideCart: FC<SlideCartProps> = ({ slides, title, categoryPath }) => {
+const  CategoryPreview: FC<SlideCartProps> = ({ slides, title, categoryPath }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const navigation = useNavigate();
 
@@ -47,62 +45,5 @@ const SlideCart: FC<SlideCartProps> = ({ slides, title, categoryPath }) => {
         < NavigationButton onClick={() => navigation(categoryPath)}>More &gt;&gt;</NavigationButton>
     </SlideCartStyle>
   )}
- export default SlideCart;
+ export default  CategoryPreview;
 
-//   const CategorySlides: FC = () => {
-
-//   const menSlides: Slide[] = [
-//     {
-//       src: "https://dbsecommerce.s3.eu-west-1.amazonaws.com/images/Man/man01.png",
-//       alt: "Man wearing gym clothes",
-//     },
-//     {
-//       src: "https://dbsecommerce.s3.eu-west-1.amazonaws.com/images/Man/man02.png",
-//       alt: "Man wearing gym clothes",
-//     },
-//     {
-//       src: "https://dbsecommerce.s3.eu-west-1.amazonaws.com/images/Man/man03.png",
-//       alt: "Man wearing gym clothes",
-//     },
-//   ];
-//   const womenSlides: Slide[] = [
-//     {
-//       src: "https://dbsecommerce.s3.eu-west-1.amazonaws.com/images/woman/woman01.png",
-//       alt: "Woman wearing gym clothes",
-//     },
-//     {
-//       src: "https://dbsecommerce.s3.eu-west-1.amazonaws.com/images/woman/woman02.png",
-//       alt: "Woman wearing gym clothes",
-//     },
-//     {
-//       src: "https://dbsecommerce.s3.eu-west-1.amazonaws.com/images/woman/woman04.png",
-//       alt: "Woman wearing gym clothes",
-//     },
-//   ];
-//   const salesSlides: Slide[] = [
-//     {
-//       src: "https://dbsecommerce.s3.eu-west-1.amazonaws.com/images/Man/man06.png",
-//       alt: "",
-//     },
-//     {
-//       src: "https://dbsecommerce.s3.eu-west-1.amazonaws.com/images/Man/man07.png",
-//       alt: "",
-//     },
-//     {
-//       src: "https://dbsecommerce.s3.eu-west-1.amazonaws.com/images/woman/woman08.png",
-//       alt: "Woman wearing gym clothes",
-//     },
-//   ];
-
-//   return (
-
-//       <SectionSlides>
-
-//       </SectionSlides>
-
-//   );
-// };
-
-
-
-// export default SlideCart;

@@ -41,10 +41,7 @@ const VideoCarousel: FC = () => {
     },
   ];
 
-  videos.forEach(({ title, caption }) => {
-    console.log("Title:", title);
-    console.log("Caption:", caption);
-  });
+
 
   const totalVideos = videos.length;
 
@@ -103,31 +100,3 @@ const VideoCarousel: FC = () => {
 
 export default VideoCarousel;
 
-{
-  /* Clone last video for seamless looping */
-}
-{
-  /* <VideoWrapper key="last-clone">
-          <video src={videos[totalVideos - 1]} muted autoPlay loop />
-        </VideoWrapper> */
-}
-
-{
-  /* Main videos */
-}
-{
-  /* {videos.map((src, index) => (
-          <VideoWrapper key={index}>
-            <video src={src} muted autoPlay loop />
-          </VideoWrapper>
-        ))} */
-}
-
-{
-  /* Clone first video for seamless looping */
-}
-{
-  /* <VideoWrapper key="first-clone">
-          <video src={videos[0]} muted autoPlay loop />
-        </VideoWrapper> */
-}

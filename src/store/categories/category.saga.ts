@@ -1,29 +1,31 @@
 import { takeLatest, all, call, put } from "typed-redux-saga/macro";
-import {fetchCategoriesAPI} from "../../api/category.api"
+import { getCategoriesAndDocuments } from "../../api/category.api";
 
 import {
-    Category,
-    fetchCategoriesFailed,
-    fetchCategoriesStart,
-    fetchCategoriesSuccess,
-} from "./category.slice"
+  fetchCategoryFailed,
+  fetchCategoryStart,
+  fetchCategorySuccess,
+} from "./category.slice";
 
 /**
  * Worker saga to handle fetching categories.
  */
-export function* fetchCategoriesSaga(action: { payload: string }) {
-    try{
-        const categories = yield* call(fetchCategoriesAPI, action.payload);
-        yield* put(fetchCategoriesSuccess(categories))
-    } catch (error) {
-        yield* put(fetchCategoriesFailed( error as Error))
-    }
+export function* fetchCategoryAsync() {
+  try {
+    // Call the API with the category from the action payload
+    const categoriesArray = yield* call(getCategoriesAndDocuments);
+    // Dispatch success action with the fetched categories
+    yield* put(fetchCategorySuccess(categoriesArray));
+  } catch (error) {
+    // Dispatch failure action with the error message
+    yield* put(fetchCategoryFailed(error as Error));
+  }
 }
 
 export function* onFetchCategories() {
-    yield* takeLatest(fetchCategoriesStart.type, fetchCategoriesSaga)
+  yield* takeLatest(fetchCategoryStart.type, fetchCategoryAsync);
 }
 
-export function* categoriesSage() {
-    yield* all([call(onFetchCategories)]);
+export function* categorySage() {
+  yield* all([call(onFetchCategories)]);
 }

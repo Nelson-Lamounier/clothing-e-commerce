@@ -1,23 +1,32 @@
-import { createSelector } from "@reduxjs/toolkit";
+import { createSelector } from "reselect";
 
-import { Category, CategoryMap } from "./category.slice";
-import { RootSate } from "../store";
+import { Category, CategoryMap, CategoryState } from "./category.slice";
+import { RootState } from "../store";
 
-const selectCategoryReducer = (state: RootSate) => state.categories;
+// Selector to get the category slice
+const selectCategoryReducer = (state: RootState) => state.categories;
 
+// Selector to get all products
 export const selectCategories = createSelector(
   [selectCategoryReducer],
-  (categoriesSlice): Category[] => categoriesSlice.categories
-);
-export const selectCategoriesMap = createSelector(
-  [selectCategories],
-  (categories): CategoryMap => categories.reduce((acc, category) => {
-    const { title, items} = category;
-    acc[title.toLowerCase()] = items;
-    return acc;
-  }, {} as CategoryMap)
+  (categorySlice): Category[] => categorySlice.categories
 );
 
-export const selectCategoriesIsLoading = createSelector(
-    [selectCategoryReducer], (categoriesSlice) => categoriesSlice.isLoading
+export const selectCategoriesMap = createSelector(
+    [selectCategories], (categories): CategoryMap => categories.reduceRight((acc, category) => {
+        const { title, items} = category;
+        acc[title.toLowerCase()] = items;
+        return acc;
+    }, {} as CategoryMap)
 )
+
+// Selector to check if data is loading
+export const selectIsLoading = createSelector(
+  [selectCategoryReducer],
+  (categorySlice) => categorySlice.isLoading
+);
+
+export const selectError = createSelector(
+  [selectCategoryReducer],
+  (categorySlice) => categorySlice.error
+);

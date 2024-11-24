@@ -1,10 +1,9 @@
-import { FC } from "react";
-
-import SlideCart from "../category-preview/category-preview.component";
+import { UseSelector } from "react-redux";
+import CategoryPreview from "../category-preview/category-preview.component";
 
 import { SectionSlides, SlidesWrapper } from "./category-slice.style";
 
-const CategorySlides: FC = () => {
+const CategorySlides = () => {
   const menSlides = [
     {
       src: "https://dbsecommerce.s3.eu-west-1.amazonaws.com/images/Man/man01.png",
@@ -53,16 +52,16 @@ const CategorySlides: FC = () => {
   return (
     <SectionSlides>
       <SlidesWrapper>
-        <SlideCart slides={menSlides} title="Mens" categoryPath="/Men" />
-        <SlideCart
+        < CategoryPreview slides={menSlides} title="mens" categoryPath="category/mens" />
+        < CategoryPreview
           slides={womenSlides}
-          title="Women"
-          categoryPath="/Women"
+          title="womens"
+          categoryPath="category/womens"
         />
-        <SlideCart
+        < CategoryPreview
           slides={salesSlides}
-          title="Sales"
-          categoryPath="/Sales"
+          title="sales"
+          categoryPath="category/sales"
         />
       </SlidesWrapper>
     </SectionSlides>
