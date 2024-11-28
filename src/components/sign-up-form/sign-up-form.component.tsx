@@ -1,62 +1,98 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 import {
-  SectionSignup,
-  FormHeading,
-  FormBtnTop,
-  FormWrapper,
-  FormInputWrapper,
+  SignupContainer,
   FormBtn,
+
 } from "./sign-up-form.style";
+import FormInput from "../form-input/form-input.component";
 
-const SignUpInForm = () => {
-  const [isSignIn, setIsSignIn] = useState(true);
+const SignUpForm = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    receiveEmails: false,
+  });
 
-  const toggleSignUpIn = (mode: boolean) => setIsSignIn(mode);
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type, checked } = e.target;
+    setFormData({ ...formData, [name]: type === "checkbox" ? checked : value });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Signing Up:", formData);
+  };
 
   return (
-    <SectionSignup>
+    <SignupContainer>
+      <h2>SignUp</h2>
+      <form onSubmit={handleSubmit}>
+        <FormInput
+          type="text"
+          placeholder="Your Name"
+          value={formData.name}
+          name="name"
+          onChange={handleChange}
+          errorMessage={errors.name}
+        />
+        <FormInput
+          type="email"
+          placeholder="Email Address"
+          value={formData.email}
+          name="email"
+          onChange={handleChange}
+          errorMessage={errors.email}
+        />
+        <FormInput
+          type="password"
+          placeholder="Password"
+          value={formData.password}
+          name="password"
+          onChange={handleChange}
+          errorMessage={errors.password}
+        />
+        <FormInput
+          type="password"
+          placeholder="Confirm Password"
+          value={formData.confirmPassword}
+          name="confirmPassword"
+          onChange={handleChange}
+          errorMessage={errors.confirmPassword}
+        />
+        <div>
+          <input
+            type="checkbox"
+            name="receiveEmails"
+            checked={formData.receiveEmails}
+            onChange={handleChange}
+          />
+          <label>
+            Tick here to receive emails about our products, apps, sales,
+            exclusive content, and more. View our Private Policy.
+          </label>
+        </div>
+        <FormBtn type="submit">Sign Up</FormBtn>
+      </form>
+
       <div>
-        <FormHeading>
-          <span className="heading-span-1">{isSignIn ? "Sign" : "Sign"}</span>
-          <span className="heading-span-2">{isSignIn ? "In" : "Up"}</span>
-        </FormHeading>
-        <FormBtnTop>
-          <button
-            className={`signin-btn ${isSignIn ? "active" : ""}`}
-            onClick={() => toggleSignUpIn(true)}
-          >
-            SignIn
-          </button>
-          <button
-            className={`signup-btn ${!isSignIn ? "active" : ""}`}
-            onClick={() => toggleSignUpIn(false)}
-          >
-            SignUp
-          </button>
-        </FormBtnTop>
-        <FormWrapper className={isSignIn ? "sign-in" : "sign-up"}>
-          <FormInputWrapper className={isSignIn ? "hidden" : ""}>
-            <input type="text" placeholder="Your Name" />
-            <p className="message">Error Message</p>
-          </FormInputWrapper>
-          <FormInputWrapper>
-            <input type="email" placeholder="Email Address" />
-            <p className="message">Error Message</p>
-          </FormInputWrapper>
-          <FormInputWrapper>
-            <input type="password" placeholder="Password" />
-            <p className="message">Error Message</p>
-          </FormInputWrapper>
-          <FormInputWrapper className={isSignIn ? "hidden" : ""}>
-            <input type="password" placeholder="Confirm Password" />
-            <p className="message">Error Message</p>
-          </FormInputWrapper>
-          <FormBtn type="submit">Submit</FormBtn>
-        </FormWrapper>
+        <p>
+          Already have an account?{" "}
+          <Link style={{ cursor: "pointer", color: "blue" }} to="/signin">Log in</Link>
+        </p>
       </div>
-    </SectionSignup>
+    </SignupContainer>
   );
 };
 
-export default SignUpInForm;
+export default SignUpForm;

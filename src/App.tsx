@@ -7,7 +7,9 @@ import Footer from "./components/footer/footer.component";
 
 import Shop from "./routes/shop/shop.component";
 
-import Authentication from "./routes/authentication/authentication.component";
+
+import SignUpForm from "./components/sign-up-form/sign-up-form.component";
+import SignInForm from "./components/sign-in-form/sign-in-form.component";
 
 // import "./assets/css/bootstrap.min.css";
 
@@ -24,7 +26,8 @@ const App = () => {
           {/* Nested Routes */}
           <Route index element={<Home />} />
           <Route path="category/*" element={<Shop/>}/>
-          <Route path="auth" element={<Authentication/>}/>
+          <Route path="signup" element={<SignUpForm/>}/>
+          <Route path="signin" element={<SignInForm/>}/>
           <Route element={<Footer />} />
         </Route>
       </Route>

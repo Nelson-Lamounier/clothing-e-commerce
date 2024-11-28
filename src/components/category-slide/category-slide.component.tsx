@@ -1,4 +1,4 @@
-import { UseSelector } from "react-redux";
+
 import CategoryPreview from "../category-preview/category-preview.component";
 
 import { SectionSlides, SlidesWrapper } from "./category-slice.style";

@@ -10,9 +10,9 @@ import {
 } from "./category-preview.style";
 
 interface Slide {
-    src: string;
-    alt: string;
-  }
+  src: string;
+  alt: string;
+}
 
 interface SlideCartProps {
   slides: Slide[];
@@ -20,30 +20,39 @@ interface SlideCartProps {
   categoryPath: string;
 }
 
-const  CategoryPreview: FC<SlideCartProps> = ({ slides, title, categoryPath }) => {
+const CategoryPreview: FC<SlideCartProps> = ({
+  slides,
+  title,
+  categoryPath,
+}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const navigation = useNavigate();
 
-  useEffect(()=>{
-    const interval = setInterval(()=>{
-        setCurrentIndex((prevIndex) => (prevIndex +1) % slides.length)
-    },3000)
-    return () => clearInterval(interval)
-  }, [slides])
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [slides]);
 
-  return(
+  return (
     <SlideCartStyle>
-        {slides.map((slide, index) => (
-            <Slide
-            key={index}
-            style={{visibility: index === currentIndex ? "visible": "hidden", opacity: index === currentIndex? 1: 0}}>
-                <CardImage src={slide.src} alt={slide.alt}/>
-
-            </Slide>
-        ))}
-        <TitleClothes>{title}</TitleClothes>
-        < NavigationButton onClick={() => navigation(categoryPath)}>More &gt;&gt;</NavigationButton>
+      {slides.map((slide, index) => (
+        <Slide
+          key={index}
+          style={{
+            visibility: index === currentIndex ? "visible" : "hidden",
+            opacity: index === currentIndex ? 1 : 0,
+          }}
+        >
+          <CardImage src={slide.src} alt={slide.alt} />
+        </Slide>
+      ))}
+      <TitleClothes>{title}</TitleClothes>
+      <NavigationButton onClick={() => navigation(categoryPath)}>
+        More &gt;&gt;
+      </NavigationButton>
     </SlideCartStyle>
-  )}
- export default  CategoryPreview;
-
+  );
+};
+export default CategoryPreview;

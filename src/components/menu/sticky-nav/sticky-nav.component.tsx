@@ -30,12 +30,12 @@ const StickyNavBar = () => {
       {isMenuOpen && <Overlay onClick={closeMenu} />}
       <NavBar className={navbarColor}>
         <NavBrand
-          to="/auth"
+          to="/signin"
         >
           LOG IN
         </NavBrand>
         <NavBrand
-          to="/auth"
+          to="/signup"
         >
           SIGN UP
         </NavBrand>
