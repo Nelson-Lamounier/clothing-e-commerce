@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const SignInContainer = styled.div`
   display: flex;
+
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -15,6 +16,9 @@ export const SignInContainer = styled.div`
   }
   p {
   font-size: 1.5rem;
+  }
+  form{
+  width: 30rem;
   }
 
 `;

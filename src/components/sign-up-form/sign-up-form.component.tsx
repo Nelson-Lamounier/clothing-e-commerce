@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+
 
 import {
   SignupContainer,
@@ -8,7 +10,15 @@ import {
 } from "./sign-up-form.style";
 import FormInput from "../form-input/form-input.component";
 
+const defaultFormFields = {
+  name: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+}
+
 const SignUpForm = () => {
+  const [formFields, setFormFields] = useState(defaultFormFields);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -24,14 +34,47 @@ const SignUpForm = () => {
     confirmPassword: "",
   });
 
+  const resetFormFields = () => {
+    setFormFields(defaultFormFields)
+  }
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
     setFormData({ ...formData, [name]: type === "checkbox" ? checked : value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Signing Up:", formData);
+
+    if (formData.password !== formData.confirmPassword) {
+      setErrors({ ...errors, confirmPassword: "Passwords do not match"});
+      return;
+    }
+    try {
+      const response = await axios.post("http://localhost:8080/api/auth/signup", 
+        {
+           username: formData.name,
+           email: formData.email,
+           password: formData.password,
+           receiveEmails: formData.receiveEmails, // Include receiveEmails
+         }, 
+         {
+           headers: {
+             "Content-Type": "application/json",
+           },
+         }
+        )
+        console.log('Signup Success:', response.data);
+        resetFormFields();
+    } catch(error: any) {
+      if(error.response) {
+        console.error("Signup Error:", error.response.data.message);
+        setErrors({...errors, email: error.response.data.message})
+      } else {
+        //Network error ot other issues
+        console.error("Network Error:", error.message)
+      }
+    }
   };
 
   return (
