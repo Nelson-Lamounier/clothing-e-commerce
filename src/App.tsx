@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Navigation from "./routes/navigation/navigation.component";
 import Home from "./routes/home/home.component";
@@ -16,7 +16,15 @@ import SignInForm from "./components/sign-in-form/sign-in-form.component";
 import { GlobalStyles } from "./global.style";
 import Layout from "./layout/layout.component";
 
+import { checkUserSession } from "./store/user/user.slice";
+import { useDispatch } from "react-redux";
+
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(checkUserSession())
+  }, [dispatch])
   return (
     <>
     <GlobalStyles />

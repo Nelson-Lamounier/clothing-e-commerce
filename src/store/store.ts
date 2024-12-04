@@ -9,6 +9,7 @@ import { PersistConfig, persistStore, persistReducer } from "redux-persist";
 
 
 interface PersistedStore {}
+
 const sagaMiddleware = createSageMiddleware();
 
 // Configure persist setting with type safety
@@ -54,3 +55,5 @@ sagaMiddleware.run(rootSaga);
 export const persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+

@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, FormEvent, ChangeEvent } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+
+import { signUpStart } from "../../store/user/user.slice";
+
 
 
 import {
@@ -9,26 +11,30 @@ import {
 
 } from "./sign-up-form.style";
 import FormInput from "../form-input/form-input.component";
+import { useDispatch } from "react-redux";
 
 const defaultFormFields = {
   name: "",
   email: "",
   password: "",
   confirmPassword: "",
+  receiveEmails:false,
 }
 
 const SignUpForm = () => {
+  const dispatch = useDispatch()
   const [formFields, setFormFields] = useState(defaultFormFields);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    receiveEmails: false,
-  });
+  const {   name,  email,    password,    confirmPassword,    receiveEmails} = formFields
+  // const [formData, setFormData] = useState({
+  //   name: "",
+  //   email: "",
+  //   password: "",
+  //   confirmPassword: "",
+  //   receiveEmails: false,
+  // });
 
   const [errors, setErrors] = useState({
-    name: "",
+    username: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -38,41 +44,28 @@ const SignUpForm = () => {
     setFormFields(defaultFormFields)
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
-    setFormData({ ...formData, [name]: type === "checkbox" ? checked : value });
+    setFormFields({ ...formFields, [name]: type === "checkbox" ? checked : value });
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (formData.password !== formData.confirmPassword) {
+    if (password !== confirmPassword) {
       setErrors({ ...errors, confirmPassword: "Passwords do not match"});
       return;
     }
     try {
-      const response = await axios.post("http://localhost:8080/api/auth/signup", 
-        {
-           username: formData.name,
-           email: formData.email,
-           password: formData.password,
-           receiveEmails: formData.receiveEmails, // Include receiveEmails
-         }, 
-         {
-           headers: {
-             "Content-Type": "application/json",
-           },
-         }
-        )
-        console.log('Signup Success:', response.data);
-        resetFormFields();
-    } catch(error: any) {
-      if(error.response) {
-        console.error("Signup Error:", error.response.data.message);
-        setErrors({...errors, email: error.response.data.message})
+      dispatch(signUpStart({email, password, username: name, receiveEmails}));
+      resetFormFields();
+    } catch(error) {
+      if(error) {
+        console.error("Signup Error:", error);
+        setErrors({...errors})
       } else {
         //Network error ot other issues
-        console.error("Network Error:", error.message)
+        console.error("Network Error:", error)
       }
     }
   };
@@ -84,23 +77,23 @@ const SignUpForm = () => {
         <FormInput
           type="text"
           placeholder="Your Name"
-          value={formData.name}
+          value={name}
           name="name"
           onChange={handleChange}
-          errorMessage={errors.name}
+          errorMessage={name}
         />
         <FormInput
           type="email"
           placeholder="Email Address"
-          value={formData.email}
+          value={email}
           name="email"
           onChange={handleChange}
-          errorMessage={errors.email}
+          errorMessage={email}
         />
         <FormInput
           type="password"
           placeholder="Password"
-          value={formData.password}
+          value={password}
           name="password"
           onChange={handleChange}
           errorMessage={errors.password}
@@ -108,7 +101,7 @@ const SignUpForm = () => {
         <FormInput
           type="password"
           placeholder="Confirm Password"
-          value={formData.confirmPassword}
+          value={confirmPassword}
           name="confirmPassword"
           onChange={handleChange}
           errorMessage={errors.confirmPassword}
@@ -117,7 +110,7 @@ const SignUpForm = () => {
           <input
             type="checkbox"
             name="receiveEmails"
-            checked={formData.receiveEmails}
+            checked={receiveEmails}
             onChange={handleChange}
           />
           <label>

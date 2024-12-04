@@ -1,14 +1,21 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { NavbarContainer, NavBar, Overlay, NavBrand } from "./sticky-nav.style";
+import { useSelector, useDispatch } from "react-redux";
+
+import { selectCurrentUser } from "../../../store/user/user.selector";
+import { signOutStart } from "../../../store/user/user.slice";
+
 import axios from "axios";
 
 const StickyNavBar = () => {
   const [navbarColor, setNavbarColor] = useState("navbar-transparent");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  // const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const currentUser = useSelector(selectCurrentUser);
 
   useEffect(() => {
     // Synchronize authentication state with localStorage
@@ -31,32 +38,13 @@ const StickyNavBar = () => {
     };
   }, []);
 
-  const handleLogout = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) throw new Error("No token found");
+  // useEffect(() => {
+  //   if(!currentUser) {
+  //     navigate('/')
+  //   }
+  // }, [currentUser, navigate])
 
-      await axios.post(
-        "http://localhost:8080/api/auth/logout",
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      // Clear token and update state
-      localStorage.removeItem("token");
-      setIsAuthenticated(false);
-      setErrorMessage(null); // Clear any previous errors
-      navigate("/signin");
-    } catch (error) {
-      console.error("Logout failed:", error);
-      setErrorMessage("Logout failed. Please try again.");
-    }
-  };
-
+  const signOutUser = () => dispatch(signOutStart());
   const closeMenu = () => {
     setIsMenuOpen(false);
   };
@@ -65,17 +53,19 @@ const StickyNavBar = () => {
     <NavbarContainer>
       {isMenuOpen && <Overlay onClick={closeMenu} />}
       <NavBar className={navbarColor}>
-        {!isAuthenticated ? (
+        {!currentUser ? (
           <>
             <NavBrand to="/signin">LOG IN</NavBrand>
             <NavBrand to="/signup">SIGN UP</NavBrand>
           </>
         ) : (
           <>
-            <NavBrand to="button" onClick={handleLogout}>
+            <NavBrand to="/" onClick={signOutUser}>
               LOG OUT
             </NavBrand>
-            {errorMessage && <span className="error-message">{errorMessage}</span>}
+            {/* {errorMessage && (
+              <span className="error-message">{errorMessage}</span>
+            )} */}
           </>
         )}
         <NavBrand to="/cart">SHOPPING BAG(0)</NavBrand>
