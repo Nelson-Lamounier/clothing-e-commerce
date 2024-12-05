@@ -31,23 +31,23 @@ import {
 // }
 
 export function* getSnapshotFromUserAuth(
-    userAuth: { email: string; password: string },
-    additionalDetails?: Record<string, any>
-  ) {
-    try {
-      // Call the sign-in API to fetch user data
-      const userData = yield* call(signInApi, userAuth);
-  
-      // If additional details exist, merge them with user data
-      const userWithDetails = { ...userData, ...additionalDetails };
-  
-      // Dispatch the sign-in success action with user data
-      yield* put(signInSuccess(userWithDetails));
-    } catch (error) {
-      // Dispatch sign-in failed action if the API call fails
-      yield* put(signInFailed(error as Error));
-    }
+  userAuth: { email: string; password: string },
+  additionalDetails?: Record<string, any>
+) {
+  try {
+    // Call the sign-in API to fetch user data
+    const userData = yield* call(signInApi, userAuth);
+
+    // If additional details exist, merge them with user data
+    const userWithDetails = { ...userData, ...additionalDetails };
+
+    // Dispatch the sign-in success action with user data
+    yield* put(signInSuccess(userWithDetails));
+  } catch (error) {
+    // Dispatch sign-in failed action if the API call fails
+    yield* put(signInFailed(error as Error));
   }
+}
 
 // Worker Saga: Handles email sign-in
 export function* signInWithEmail(
@@ -63,14 +63,14 @@ export function* signInWithEmail(
   }
 }
 
-export function* isUserAuthenticated(){
-    try{
-        const userAuth = yield* call(getCurrentUser);
-        if(!userAuth) return;
-        yield* call(getSnapshotFromUserAuth, userAuth);
-    }catch(error){
-        yield put(signInFailed(error as Error))
-    }
+export function* isUserAuthenticated() {
+  try {
+    const userAuth = yield* call(getCurrentUser);
+    if (!userAuth) return;
+    yield* put(signInSuccess(userAuth));
+  } catch (error) {
+    yield put(signInFailed(error as Error));
+  }
 }
 
 // Worker Saga: Handles Google Sign-In
@@ -94,11 +94,12 @@ export function* signUp(
   }>
 ) {
   try {
-    const { username } = action.payload; // Destructure `username`
+    const { username, email, password } = action.payload; // Destructure `username`
     const UserCredential = yield* call(signUpApi, action.payload);
     if (UserCredential) {
       const { user } = UserCredential;
-      yield* put(signUpSuccess({ user, additionalDetails: { username } }));
+      yield* put(signUpSuccess({ user:{...user, email}, additionalDetails: { username, password } }));
+      localStorage.setItem("token", UserCredential.token); // Store token after successful sign-up
     }
   } catch (error) {
     yield* put(signUpFailed(error as Error));
@@ -117,32 +118,39 @@ export function* signOut() {
 }
 
 export function* signInAfterSignUp({
-    payload: { user, additionalDetails },
-  }: PayloadAction<{ user: { email: string; password: string }; additionalDetails?: Record<string, any> }>) {
-    try {
-      // Call the existing getSnapshotFromUserAuth to handle sign-in logic after sign-up
-      yield* call(getSnapshotFromUserAuth, user, additionalDetails);
-    } catch (error) {
-      // Handle any errors during the sign-in process
-      yield* put(signInFailed(error as Error));
-    }
+  payload: { user, additionalDetails },
+}: PayloadAction<{
+  user: { email: string; password: string };
+  additionalDetails:{ password: string };
+}>) {
+  try {
+    const { email } = user; // Extract email
+    const { password } = additionalDetails; // Extract password
+    // Call the existing getSnapshotFromUserAuth to handle sign-in logic after sign-up
+    if (!email || !password) {
+        throw new Error("Email and password are required");
+      }
+    yield* call(getSnapshotFromUserAuth, { email, password });
+  } catch (error) {
+    // Handle any errors during the sign-in process
+    yield* put(signInFailed(error as Error));
   }
+}
 
-  export function* onCheckUserSession(){
-    yield* takeLatest(checkUserSession.type, isUserAuthenticated)
-  }
-
+export function* onCheckUserSession() {
+  yield* takeLatest(checkUserSession.type, isUserAuthenticated);
+}
 
 // Watcher Sagas: Watch for actions and delegate to worker sagas
 function* onEmailSignInStart() {
   yield* takeLatest(emailSignInStart.type, signInWithEmail);
 }
 
-export function* onSignUpStart(){
-    yield* takeLatest(signUpStart.type, signUp)
+export function* onSignUpStart() {
+  yield* takeLatest(signUpStart.type, signUp);
 }
 export function* onSignUpSuccess() {
-    yield* takeLatest(signUpSuccess.type, signInAfterSignUp)
+  yield* takeLatest(signUpSuccess.type, signInAfterSignUp);
 }
 
 function* onGoogleSignInStart() {
@@ -156,11 +164,11 @@ function* onSignOuStart() {
 // Combine all sagas into a root saga
 export function* userSagas() {
   yield* all([
-    call(onEmailSignInStart),
+    call(onCheckUserSession),
     call(onGoogleSignInStart),
+    call(onEmailSignInStart),
     call(onSignOuStart),
     call(onSignUpSuccess),
     call(onSignUpStart),
-    call(onCheckUserSession),
   ]);
 }

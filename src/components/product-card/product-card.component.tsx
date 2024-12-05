@@ -1,7 +1,10 @@
 import { FC } from "react";
 
-import { CategoryItem } from "../../store/categories/category.slice";
+import { useDispatch } from "react-redux";
 
+import { addItemToCart } from "../../store/cart/cart.slice";
+
+import { CategoryItem } from "../../store/categories/category.slice";
 
 import {
   ProductContainer,
@@ -9,6 +12,8 @@ import {
   ProductTitle,
   ProductDescription,
   ProductPrice,
+  Footer,
+  Button,
 } from "./product-card.style";
 
 type ProductCardProps = {
@@ -16,16 +21,20 @@ type ProductCardProps = {
 };
 
 const ProductCard: FC<ProductCardProps> = ({ product }) => {
+  const { name, price, ImageUrl} = product;
+  const dispatch = useDispatch()
 
+  const addProductToCart = () => dispatch(addItemToCart(product))
   return (
     <>
-      <ProductContainer key={product.id}>
-        <ProductImage src={product.ImageUrl} alt={product.name} />
-        <div>
-          <ProductTitle>{product.name}</ProductTitle>
+      <ProductContainer >
+        <ProductImage src={ImageUrl} alt={name} />
+        <Footer>
+          <ProductTitle>{name}</ProductTitle>
           <ProductDescription>{product.description}</ProductDescription>
-          <ProductPrice>€{product.price}</ProductPrice>
-        </div>
+          <ProductPrice>€{price}</ProductPrice>
+        </Footer>
+        <Button onClick={addProductToCart}>Add to card</Button>
       </ProductContainer>
     </>
   );

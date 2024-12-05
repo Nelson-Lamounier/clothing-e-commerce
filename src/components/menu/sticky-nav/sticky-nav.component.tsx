@@ -3,6 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { NavbarContainer, NavBar, Overlay, NavBrand } from "./sticky-nav.style";
 import { useSelector, useDispatch } from "react-redux";
 
+import CartDropdown from "../../cart-dropdown/cart-dropdown.component";
+import CartIcon from "../../cart-icon/cart-icon.component";
+
+import { selectIsCartOpen } from "../../../store/cart/cart.selector";
 import { selectCurrentUser } from "../../../store/user/user.selector";
 import { signOutStart } from "../../../store/user/user.slice";
 
@@ -16,6 +20,7 @@ const StickyNavBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const currentUser = useSelector(selectCurrentUser);
+  const isCartOpen = useSelector(selectIsCartOpen)
 
   useEffect(() => {
     // Synchronize authentication state with localStorage
@@ -63,12 +68,10 @@ const StickyNavBar = () => {
             <NavBrand to="/" onClick={signOutUser}>
               LOG OUT
             </NavBrand>
-            {/* {errorMessage && (
-              <span className="error-message">{errorMessage}</span>
-            )} */}
           </>
         )}
-        <NavBrand to="/cart">SHOPPING BAG(0)</NavBrand>
+        <CartIcon/>
+        {isCartOpen && <CartDropdown />}
       </NavBar>
     </NavbarContainer>
   );

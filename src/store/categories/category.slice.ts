@@ -8,7 +8,7 @@ and fetchCategoryFailed for managing the state.
 import { createSlice, PayloadAction, isAnyOf } from "@reduxjs/toolkit";
 
 export interface CategoryItem {
-  id: string;
+  id: number;
   ImageUrl: string;
   name: string;
   description: string;

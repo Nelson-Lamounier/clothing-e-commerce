@@ -30,3 +30,8 @@ export const selectError = createSelector(
   [selectCategoryReducer],
   (categorySlice) => categorySlice.error
 );
+
+export const selectCategoriesIsLoading = createSelector(
+  [selectCategoryReducer],
+  (categoriesSlice) => categoriesSlice.isLoading
+);

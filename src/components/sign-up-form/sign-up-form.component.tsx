@@ -1,5 +1,5 @@
 import { useState, FormEvent, ChangeEvent } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { signUpStart } from "../../store/user/user.slice";
 
@@ -25,6 +25,7 @@ const SignUpForm = () => {
   const dispatch = useDispatch()
   const [formFields, setFormFields] = useState(defaultFormFields);
   const {   name,  email,    password,    confirmPassword,    receiveEmails} = formFields
+  const navigate = useNavigate()
   // const [formData, setFormData] = useState({
   //   name: "",
   //   email: "",
@@ -59,6 +60,7 @@ const SignUpForm = () => {
     try {
       dispatch(signUpStart({email, password, username: name, receiveEmails}));
       resetFormFields();
+      navigate('/')
     } catch(error) {
       if(error) {
         console.error("Signup Error:", error);
@@ -80,7 +82,7 @@ const SignUpForm = () => {
           value={name}
           name="name"
           onChange={handleChange}
-          errorMessage={name}
+      
         />
         <FormInput
           type="email"
@@ -88,7 +90,7 @@ const SignUpForm = () => {
           value={email}
           name="email"
           onChange={handleChange}
-          errorMessage={email}
+      
         />
         <FormInput
           type="password"

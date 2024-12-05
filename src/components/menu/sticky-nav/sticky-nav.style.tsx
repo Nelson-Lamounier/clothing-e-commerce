@@ -25,12 +25,12 @@ export const NavBar = styled.nav`
 `;
 
 export const NavBrand = styled(Link)`
-  margin-right: 2rem;
+  margin: 1.5rem ;
   text-decoration: none;
   color: inherit;
   font-size: 1.2rem;
-  font-weight: 100;
-  letter-spacing: 0.2rem  
+  font-weight: 200;
+  letter-spacing: 0.2rem;
 `;
 
 export const Overlay = styled.div`
@@ -43,33 +43,4 @@ export const Overlay = styled.div`
   z-index: 100;
 `;
 
-// ---
 
-// ### **Key Features**
-
-// 1. **Styled Components**:
-//    - All styles are encapsulated and reusable.
-//    - Added dynamic props for conditional styling (e.g., `isOpen` for the sliding menu).
-
-// 2. **Dynamic Navbar Color**:
-//    - Controlled using `navbarColor` state and applied via `className`.
-
-// 3. **Custom Sliding Menu**:
-//    - The menu slides in and out based on `isMenuOpen` state.
-//    - Controlled via `Styled.div` with a conditional `isOpen` prop.
-
-// 4. **Overlay**:
-//    - Added an overlay that closes the menu when clicked, enhancing UX.
-
-// 5. **Separation of Concerns**:
-//    - Logic resides in the component file, and styles in a separate `styled-components` file for better maintainability.
-
-// ---
-
-// ### **How to Use**
-
-// - Place the `ExamplesNavbar.tsx` component in your project, ensuring `styled-components` is installed.
-// - Import the `ExamplesNavbar.styles.ts` file and ensure it's in the same directory.
-// - Replace any existing navbar implementation with this one.
-
-// Let me know if you need further clarifications or adjustments!

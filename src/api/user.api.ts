@@ -75,7 +75,7 @@ export const getCurrentUser = async (): Promise<any> => {
       throw new Error("No token found");
     }
   
-    const response = await api.post("/api/auth/current-user", {
+    const response = await api.get("/api/auth/current-user", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
