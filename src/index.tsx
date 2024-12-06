@@ -4,6 +4,8 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import reportWebVitals from "./reportWebVitals";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { Elements } from "@stripe/react-stripe-js";
+import { stripePromise } from "./api/stripe.api";
 
 import { store, persistor } from "./store/store";
 
@@ -26,7 +28,9 @@ root.render(
       <PersistGate loading={null} persistor={persistor}>
         <GoogleOAuthProvider clientId={clientId}>
         <BrowserRouter>
+        <Elements stripe={stripePromise}>
           <App />
+        </Elements>
         </BrowserRouter>
         </GoogleOAuthProvider>
       </PersistGate>

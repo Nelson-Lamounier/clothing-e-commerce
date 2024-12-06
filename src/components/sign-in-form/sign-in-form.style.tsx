@@ -26,11 +26,9 @@ export const SignInContainer = styled.div`
 export const ButtonsContainer = styled.div`
   display: flex;
   justify-content: space-between;
-
   button {
   color: #555;
   text-transform: uppercase;
-  margin: 2rem 0;
   letter-spacing: 0.1rem;
   font-size: 1rem;
   font-weight: 300;

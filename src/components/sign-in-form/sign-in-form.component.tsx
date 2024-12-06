@@ -1,58 +1,57 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {useDispatch} from "react-redux"
-import axios from "axios";
+import { useDispatch } from "react-redux";
+import { GoogleLogin } from "@react-oauth/google";
+
+import FormInput from "../form-input/form-input.component";
+
 import {
-  GoogleLogin,
-  googleLogout,
-  CredentialResponse,
-} from "@react-oauth/google";
+  emailSignInStart,
+  googleSignInStart,
+} from "../../store/user/user.slice";
 
 import { SignInContainer, ButtonsContainer } from "./sign-in-form.style";
-import FormInput from "../form-input/form-input.component";
-import { emailSignInStart, googleSignInStart } from "../../store/user/user.slice";
-
 
 const defaultFormFields = {
   email: "",
   password: "",
-}
+};
 
 const SignInForm = () => {
   const navigation = useNavigate();
   const dispatch = useDispatch();
-  const [formFields, setFormFields] = useState(defaultFormFields)
-  const { email, password} = formFields;
+  const [formFields, setFormFields] = useState(defaultFormFields);
+  const { email, password } = formFields;
 
   const resetFormFields = () => {
-    setFormFields(defaultFormFields)
-  }
+    setFormFields(defaultFormFields);
+  };
 
-  
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      dispatch(emailSignInStart({email, password}))
+      dispatch(emailSignInStart({ email, password }));
       resetFormFields();
-      navigation('/')
+      navigation("/");
     } catch (error) {
-      console.log('User seign in failed', error)
-    } }
-    
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-      const { name, value } = e.target;
-      setFormFields({ ...formFields, [name]: value });
-    };
+      console.log("User seign in failed", error);
+    }
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormFields({ ...formFields, [name]: value });
+  };
 
   const handleGoogleSuccess = (credentialResponse: any) => {
     try {
       const token = credentialResponse.credential;
-      dispatch(googleSignInStart(token))
-      navigation('/')
+      dispatch(googleSignInStart(token));
+      navigation("/");
     } catch (error) {
-      console.error("Failed to SignIn with google", error)
+      console.error("Failed to SignIn with google", error);
     }
-  }
+  };
 
   // Handle Google Sign-In Failure
   const handleGoogleFailure = () => {
@@ -69,7 +68,6 @@ const SignInForm = () => {
           value={email}
           name="email"
           onChange={handleChange}
-          
         />
         <FormInput
           type="password"
@@ -77,12 +75,9 @@ const SignInForm = () => {
           value={password}
           name="password"
           onChange={handleChange}
-          
         />
         <ButtonsContainer>
           <button type="submit">Sign In</button>
-          {/* <button type="submit">Sign In With Google</button> */}
-          {/* Google Sign-In Button */}
           <GoogleLogin
             onSuccess={handleGoogleSuccess}
             onError={handleGoogleFailure}
@@ -103,6 +98,5 @@ const SignInForm = () => {
     </SignInContainer>
   );
 };
-
 
 export default SignInForm;

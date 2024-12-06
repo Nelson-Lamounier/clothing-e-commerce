@@ -1,38 +1,26 @@
 import { useState, FormEvent, ChangeEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import { signUpStart } from "../../store/user/user.slice";
 
-
-
-import {
-  SignupContainer,
-  FormBtn,
-
-} from "./sign-up-form.style";
 import FormInput from "../form-input/form-input.component";
-import { useDispatch } from "react-redux";
+
+import { SignupContainer, FormBtn } from "./sign-up-form.style";
 
 const defaultFormFields = {
   name: "",
   email: "",
   password: "",
   confirmPassword: "",
-  receiveEmails:false,
-}
+  receiveEmails: false,
+};
 
 const SignUpForm = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [formFields, setFormFields] = useState(defaultFormFields);
-  const {   name,  email,    password,    confirmPassword,    receiveEmails} = formFields
-  const navigate = useNavigate()
-  // const [formData, setFormData] = useState({
-  //   name: "",
-  //   email: "",
-  //   password: "",
-  //   confirmPassword: "",
-  //   receiveEmails: false,
-  // });
+  const { name, email, password, confirmPassword, receiveEmails } = formFields;
+  const navigate = useNavigate();
 
   const [errors, setErrors] = useState({
     username: "",
@@ -42,32 +30,35 @@ const SignUpForm = () => {
   });
 
   const resetFormFields = () => {
-    setFormFields(defaultFormFields)
-  }
+    setFormFields(defaultFormFields);
+  };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
-    setFormFields({ ...formFields, [name]: type === "checkbox" ? checked : value });
+    setFormFields({
+      ...formFields,
+      [name]: type === "checkbox" ? checked : value,
+    });
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      setErrors({ ...errors, confirmPassword: "Passwords do not match"});
+      setErrors({ ...errors, confirmPassword: "Passwords do not match" });
       return;
     }
     try {
-      dispatch(signUpStart({email, password, username: name, receiveEmails}));
+      dispatch(signUpStart({ email, password, username: name, receiveEmails }));
       resetFormFields();
-      navigate('/')
-    } catch(error) {
-      if(error) {
+      navigate("/");
+    } catch (error) {
+      if (error) {
         console.error("Signup Error:", error);
-        setErrors({...errors})
+        setErrors({ ...errors });
       } else {
         //Network error ot other issues
-        console.error("Network Error:", error)
+        console.error("Network Error:", error);
       }
     }
   };
@@ -82,7 +73,6 @@ const SignUpForm = () => {
           value={name}
           name="name"
           onChange={handleChange}
-      
         />
         <FormInput
           type="email"
@@ -90,7 +80,6 @@ const SignUpForm = () => {
           value={email}
           name="email"
           onChange={handleChange}
-      
         />
         <FormInput
           type="password"
@@ -126,7 +115,9 @@ const SignUpForm = () => {
       <div>
         <p>
           Already have an account?{" "}
-          <Link style={{ cursor: "pointer", color: "blue" }} to="/signin">Log in</Link>
+          <Link style={{ cursor: "pointer", color: "blue" }} to="/signin">
+            Log in
+          </Link>
         </p>
       </div>
     </SignupContainer>

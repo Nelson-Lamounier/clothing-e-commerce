@@ -11,6 +11,8 @@ import Shop from "./routes/shop/shop.component";
 import SignUpForm from "./components/sign-up-form/sign-up-form.component";
 import SignInForm from "./components/sign-in-form/sign-in-form.component";
 
+import Checkout from "./routes/checkout/checkout.component";
+
 // import "./assets/css/bootstrap.min.css";
 
 import { GlobalStyles } from "./global.style";
@@ -36,6 +38,7 @@ const App = () => {
           <Route path="category/*" element={<Shop/>}/>
           <Route path="signup" element={<SignUpForm/>}/>
           <Route path="signin" element={<SignInForm/>}/>
+          <Route path="checkout" element={<Checkout/>}/>
           <Route element={<Footer />} />
         </Route>
       </Route>

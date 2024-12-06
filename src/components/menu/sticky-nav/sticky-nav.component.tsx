@@ -16,11 +16,13 @@ const StickyNavBar = () => {
   const [navbarColor, setNavbarColor] = useState("navbar-transparent");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  // const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const currentUser = useSelector(selectCurrentUser);
   const isCartOpen = useSelector(selectIsCartOpen)
+
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     // Synchronize authentication state with localStorage
@@ -29,18 +31,23 @@ const StickyNavBar = () => {
   }, []);
 
   useEffect(() => {
-    const updateNavbarColor = () => {
-      if (window.scrollY > 399) {
-        setNavbarColor("navbar-colored");
-      } else {
-        setNavbarColor("navbar-transparent");
-      }
+    const onScroll = () => {
+      setIsScrolled(window.scrollY > 399)
     };
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
+    // const updateNavbarColor = () => {
+    //   if (window.scrollY > 399) {
+    //     setNavbarColor("navbar-colored");
+    //   } else {
+    //     setNavbarColor("navbar-transparent");
+    //   }
+    // };
 
-    window.addEventListener("scroll", updateNavbarColor);
-    return () => {
-      window.removeEventListener("scroll", updateNavbarColor);
-    };
+    // window.addEventListener("scroll", updateNavbarColor);
+    // return () => {
+    //   window.removeEventListener("scroll", updateNavbarColor);
+    // };
   }, []);
 
   // useEffect(() => {
@@ -55,9 +62,9 @@ const StickyNavBar = () => {
   };
 
   return (
-    <NavbarContainer>
+    <NavbarContainer >
       {isMenuOpen && <Overlay onClick={closeMenu} />}
-      <NavBar className={navbarColor}>
+      <NavBar className={`navbar ${isScrolled ? 'navbar-colored' : 'navbar-transparent'}`}>
         {!currentUser ? (
           <>
             <NavBrand to="/signin">LOG IN</NavBrand>

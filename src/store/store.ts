@@ -7,10 +7,12 @@ import { rootReducer } from "./root-reducer";
 import { PersistConfig, persistStore, persistReducer } from "redux-persist";
 
 
-
-interface PersistedStore {}
-
 const sagaMiddleware = createSageMiddleware();
+
+interface PersistedStore {
+  cart: any;
+}
+
 
 // Configure persist setting with type safety
 type ExtendedPersistConfig = PersistConfig<ReturnType<typeof rootReducer>> & {
@@ -20,7 +22,7 @@ type ExtendedPersistConfig = PersistConfig<ReturnType<typeof rootReducer>> & {
 const persistConfig: ExtendedPersistConfig ={
     key: "root",
     storage,
-    whitelist: []
+    whitelist: ["cart"]
 }
 // create the persisted reducer using reduc-persist
 const persistedReducer = persistReducer(persistConfig, rootReducer)

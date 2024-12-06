@@ -9,11 +9,12 @@ export const NavBar = styled.nav`
   position: fixed;
   top: 0;
   width: 100%;
-  padding: 2rem 2rem;
+  padding: 2rem;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   z-index: 100;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
+
   &.navbar-transparent {
     background-color: transparent;
   }
@@ -25,7 +26,7 @@ export const NavBar = styled.nav`
 `;
 
 export const NavBrand = styled(Link)`
-  margin: 1.5rem ;
+  margin: 1.5rem;
   text-decoration: none;
   color: inherit;
   font-size: 1.2rem;
@@ -40,7 +41,5 @@ export const Overlay = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 100;
+  z-index: 101; /* Ensure the overlay appears above the navbar */
 `;
-
-

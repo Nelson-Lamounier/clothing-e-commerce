@@ -5,8 +5,6 @@ export interface User {
   uid: string;
   username: string | null;
   email: string | null;
-
-  
   [key: string]: any;
 }
 
@@ -53,7 +51,12 @@ export const userSlice = createSlice({
     },
     signUpStart(
       state,
-      action: PayloadAction<{ email: string; password: string; username: string; receiveEmails: boolean; }>
+      action: PayloadAction<{
+        email: string;
+        password: string;
+        username: string;
+        receiveEmails: boolean;
+      }>
     ) {},
     signUpSuccess(
       state,
@@ -67,9 +70,7 @@ export const userSlice = createSlice({
       state.error = null;
     },
     signUpFailed(state, action: PayloadAction<Error>) {},
-    signOutStart(state) {
-
-    },
+    signOutStart(state) {},
     signOutSuccess(state) {
       state.currentUser = null;
       state.error = null;

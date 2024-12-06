@@ -23,14 +23,3 @@ export const CategoryContainer = styled.div`
 
 `;
 
-export const InvertedButton = styled.button`
-  background-color: white;
-  color: black;
-  border: 1px solid black;
-
-  &:hover {
-    background-color: black;
-    color: white;
-    border: none;
-  }
-`;
